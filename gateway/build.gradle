@@ -1,0 +1,53 @@
+buildscript {
+	ext {
+		springBootVersion = '1.5.10.RELEASE'
+		springSwagger2Version = '2.7.0'
+		springSwaggerUIVersion = '1.0.0'
+		feignJacksonVersion = '8.18.0'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+}
+
+
+ext {
+	springCloudVersion = 'Edgware.SR1'
+}
+
+dependencies {
+	compile('org.springframework.boot:spring-boot-starter-actuator')
+	compile('org.springframework.boot:spring-boot-actuator-docs')
+	compile('org.springframework.cloud:spring-cloud-starter-feign')
+	compile('org.springframework.cloud:spring-cloud-starter-hystrix')
+	compile('org.springframework.cloud:spring-cloud-starter-hystrix-dashboard')
+	compile('org.springframework.boot:spring-boot-starter-web')
+
+    compile("com.netflix.feign:feign-jackson:${feignJacksonVersion}")
+
+	compile("io.springfox:springfox-swagger2:${springSwagger2Version}")
+	compile("io.springfox.ui:springfox-swagger-ui-rfc6570:${springSwaggerUIVersion}")
+
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
+}
