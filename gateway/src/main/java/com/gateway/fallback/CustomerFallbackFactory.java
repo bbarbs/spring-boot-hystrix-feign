@@ -1,9 +1,8 @@
 package com.gateway.fallback;
 
 import com.gateway.client.CustomerClient;
-import com.gateway.decoder.exception.ConflictException;
-import com.gateway.decoder.exception.NotFoundException;
 import com.gateway.model.Customer;
+import feign.FeignException;
 import feign.hystrix.FallbackFactory;
 import org.springframework.stereotype.Component;
 
@@ -18,37 +17,37 @@ public class CustomerFallbackFactory implements FallbackFactory<CustomerClient> 
         return new CustomerClient() {
             @Override
             public List<Customer> getAllCustomers() {
-                handleFeignException(cause);
+                handleErrorDecoderException(cause);
                 return new ArrayList<>();
             }
 
             @Override
             public Customer addCustomer(Customer customer) {
-                handleFeignException(cause);
+                handleErrorDecoderException(cause);
                 return new Customer();
             }
 
             @Override
             public Customer getCustomerById(Long customerId) {
-                handleFeignException(cause);
+                handleErrorDecoderException(cause);
                 return new Customer();
 
             }
 
             @Override
             public Customer updateCustomerById(Long customerId, Customer customer) {
-                handleFeignException(cause);
+                handleErrorDecoderException(cause);
                 return new Customer();
             }
 
             @Override
             public void deleteCustomerById(Long customerId) {
-                handleFeignException(cause);
+                handleErrorDecoderException(cause);
             }
 
             @Override
             public List<Customer> getCustomersByAge(int age) {
-                handleFeignException(cause);
+                handleErrorDecoderException(cause);
                 return new ArrayList<>();
             }
         };
@@ -59,10 +58,9 @@ public class CustomerFallbackFactory implements FallbackFactory<CustomerClient> 
      *
      * @param cause
      */
-    private void handleFeignException(Throwable cause) {
-        if (cause instanceof NotFoundException ||
-                cause instanceof ConflictException) {
-            // Throw exception to propagate the error to controller.
+    private void handleErrorDecoderException(Throwable cause) {
+        // Throw exception to propagate the error to controller.
+        if (cause instanceof FeignException) {
             throw new RuntimeException(cause.getMessage());
         }
     }

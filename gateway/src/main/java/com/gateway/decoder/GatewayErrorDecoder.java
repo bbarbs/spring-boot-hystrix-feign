@@ -1,5 +1,6 @@
 package com.gateway.decoder;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gateway.decoder.exception.ConflictException;
 import com.gateway.decoder.exception.NotFoundException;
@@ -8,6 +9,8 @@ import feign.Response;
 import feign.codec.ErrorDecoder;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+
+import java.io.IOException;
 
 /**
  * Custom error decoder to determine what exception will to fallback like {@link com.gateway.fallback.CustomerFallbackFactory}
@@ -21,30 +24,35 @@ public class GatewayErrorDecoder implements ErrorDecoder {
 
     @Override
     public Exception decode(String methodKey, Response response) {
-        String message = this.getExceptionMessage(response);
-        if (response.status() == HttpStatus.CONFLICT.value()) {
-            throw new ConflictException(message);
-        } else if (response.status() == HttpStatus.NOT_FOUND.value()) {
-            throw new NotFoundException(message);
-        }
+        handleError(response);
         return decoder.decode(methodKey, response);
     }
 
     /**
-     * Helper method to get the exception message.
-     * Same error format is thrown from other service which is {@link ApiExceptionMessage}
+     * Handle error.
      *
      * @param response
-     * @return
      */
-    private String getExceptionMessage(Response response) {
-        String body = null;
+    private void handleError(Response response) {
         try {
-            ApiExceptionMessage exceptionMessage = mapper.readValue(response.body().asInputStream(), ApiExceptionMessage.class);
-            body = mapper.writeValueAsString(exceptionMessage);
-        } catch (Exception e) {
-            e.printStackTrace();
+            JsonNode jsonNode = this.mapper.readTree(response.body().asInputStream());
+            // Check if error is custom from other service.
+            if (jsonNode.get(ApiExceptionMessage.TIMESTAMP) != null &&
+                    jsonNode.get(ApiExceptionMessage.STATUS_CODE) != null &&
+                    jsonNode.get(ApiExceptionMessage.ERROR) != null &&
+                    jsonNode.get(ApiExceptionMessage.HTTP_STATUS) != null) {
+                // Check the status.
+                if (response.status() == HttpStatus.CONFLICT.value()) {
+                    throw new ConflictException(jsonNode.toString());
+                } else if (response.status() == HttpStatus.NOT_FOUND.value()) {
+                    throw new NotFoundException(jsonNode.toString());
+                }
+            } else {
+                // Throw other error.
+                throw new RuntimeException(jsonNode.toString());
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e.getMessage());
         }
-        return body;
     }
 }

@@ -1,11 +1,22 @@
 package com.gateway.decoder.exception;
 
-public class NotFoundException extends FeignDecoderException {
+import feign.FeignException;
 
-    public NotFoundException() {
+/**
+ * Exception for custom handling in {@link com.gateway.decoder.GatewayErrorDecoder}
+ */
+
+public class NotFoundException extends FeignException {
+
+    public NotFoundException(String message, Throwable cause) {
+        super(message, cause);
     }
 
-    public NotFoundException(String s) {
-        super(s);
+    public NotFoundException(String message) {
+        super(message);
+    }
+
+    public NotFoundException(int status, String message) {
+        super(status, message);
     }
 }

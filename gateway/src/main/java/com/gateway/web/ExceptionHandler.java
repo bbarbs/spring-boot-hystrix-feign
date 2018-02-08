@@ -9,6 +9,8 @@ public abstract class ExceptionHandler {
 
     /**
      * Handle exceptions related to customer.
+     * <p>
+     * Note: It must get the cause of the error and not the present.
      *
      * @param cause
      */
@@ -17,6 +19,8 @@ public abstract class ExceptionHandler {
             throw new CustomerNotFoundException(cause.getMessage());
         } else if (cause instanceof ConflictException) {
             throw new CustomerConflictException(cause.getMessage());
+        } else {
+            throw new RuntimeException(cause.getMessage());
         }
     }
 }

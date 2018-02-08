@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -41,7 +42,13 @@ public class CustomerController extends ExceptionHandler {
             produces = APPLICATION_JSON_VALUE
     )
     public List<Customer> getAllCustomers() {
-        return this.customerClient.getAllCustomers();
+        List<Customer> list = new ArrayList<>();
+        try {
+            list = this.customerClient.getAllCustomers();
+        } catch (Exception e) {
+            this.handleCustomerException(e.getCause());
+        }
+        return list;
     }
 
     /**
@@ -135,6 +142,12 @@ public class CustomerController extends ExceptionHandler {
             produces = APPLICATION_JSON_VALUE
     )
     public List<Customer> getCustomersByAge(@RequestParam(name = "age") int age) {
-        return this.customerClient.getCustomersByAge(age);
+        List<Customer> list = new ArrayList<>();
+        try {
+            list = this.customerClient.getCustomersByAge(age);
+        } catch (Exception e) {
+            this.handleCustomerException(e.getCause());
+        }
+        return list;
     }
 }

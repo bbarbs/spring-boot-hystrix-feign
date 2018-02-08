@@ -40,7 +40,7 @@ public interface CustomerClient {
      */
     @PostMapping(
             value = "customers",
-            consumes = APPLICATION_JSON_VALUE,
+
             produces = APPLICATION_JSON_VALUE
     )
     Customer addCustomer(@RequestBody Customer customer);
