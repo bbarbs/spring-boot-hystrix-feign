@@ -74,3 +74,6 @@ public CustomerController() {
 ## Swagger
 * Check the http://localhost:8090/swagger-ui.html to view the api.
 
+## Hystrix Dashboard
+* You can access the **http://localhost:8090/hystrix** and the hostname **http://localhost:8090/hystrix.stream**
+
