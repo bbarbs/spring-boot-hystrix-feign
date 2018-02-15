@@ -6,7 +6,7 @@ This sample project implements feign and hystrix. It uses feignclient to call th
 * Hystrix
 * Swagger
 
-## Configuration
+## Gateway Configuration
 * Hystrix timeout
 ```
 hystrix:
@@ -43,7 +43,8 @@ customers:
   ribbon:
     listOfServers: http://localhost:8080
 ```
-* Server ports
+
+## Server ports
 ```
 Customer
 server:
@@ -54,7 +55,7 @@ server:
   port: 8090
 ```
 
-## Custom Handling
+## Gateway Feignclient Custom Handling
 It uses [ErrorDecoder](https://github.com/OpenFeign/feign/wiki/Custom-error-handling) to manage exception and to propagate it in controller in Gateway.
 <br/>
 Then you can provide the builder of feign client.
@@ -72,4 +73,7 @@ public CustomerController() {
 
 ## Swagger
 * Check the http://localhost:8090/swagger-ui.html to view the api.
+
+## Hystrix Dashboard
+* You can access the **http://localhost:8090/hystrix** and the hostname **http://localhost:8090/hystrix.stream**
 
