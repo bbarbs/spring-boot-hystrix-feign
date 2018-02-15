@@ -77,3 +77,7 @@ public CustomerController() {
 ## Hystrix Dashboard
 * You can access the **http://localhost:8090/hystrix** and the hostname **http://localhost:8090/hystrix.stream**
 
+## Running Test Case
+* Test case in gateway project is using [Wiremock](http://wiremock.org/).
+* To test fallback stop the customer project and run test case and it will log the fallback data. **Note:** When the customer project is running and test case is run wiremock will perform the operation.
+
