@@ -1,10 +1,14 @@
 package com.gateway.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 @ApiModel
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Customer {
+
+    public static final String FALLBACK = "fallback";
 
     @ApiModelProperty(hidden = true)
     private Long id;
@@ -58,5 +62,15 @@ public class Customer {
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", age=" + age +
+                '}';
     }
 }

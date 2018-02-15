@@ -5,7 +5,7 @@ import com.gateway.decoder.exception.NotFoundException;
 import com.gateway.exception.CustomerConflictException;
 import com.gateway.exception.CustomerNotFoundException;
 
-public abstract class ExceptionHandler {
+public abstract class WebExceptionHandler {
 
     /**
      * Handle exceptions related to customer.
@@ -20,7 +20,7 @@ public abstract class ExceptionHandler {
         } else if (cause instanceof ConflictException) {
             throw new CustomerConflictException(cause.getMessage());
         } else {
-            throw new RuntimeException(cause.getMessage());
+            throw new RuntimeException("Service down");
         }
     }
 }

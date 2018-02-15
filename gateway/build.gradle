@@ -4,6 +4,7 @@ buildscript {
 		springSwagger2Version = '2.7.0'
 		springSwaggerUIVersion = '1.0.0'
 		feignJacksonVersion = '8.18.0'
+		wiremockVersion = '2.14.0'
 	}
 	repositories {
 		mavenCentral()
@@ -44,6 +45,7 @@ dependencies {
 	compile("io.springfox.ui:springfox-swagger-ui-rfc6570:${springSwaggerUIVersion}")
 
 	testCompile('org.springframework.boot:spring-boot-starter-test')
+	testCompile("com.github.tomakehurst:wiremock:${wiremockVersion}")
 }
 
 dependencyManagement {

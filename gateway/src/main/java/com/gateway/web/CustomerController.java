@@ -1,13 +1,8 @@
 package com.gateway.web;
 
 import com.gateway.client.CustomerClient;
-import com.gateway.decoder.GatewayErrorDecoder;
-import com.gateway.fallback.CustomerFallbackFactory;
 import com.gateway.model.Customer;
-import feign.hystrix.HystrixFeign;
-import feign.jackson.JacksonDecoder;
-import feign.jackson.JacksonEncoder;
-import org.springframework.cloud.netflix.feign.support.SpringMvcContract;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,19 +14,10 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
 @RequestMapping(value = "/customers")
-public class CustomerController extends ExceptionHandler {
+public class CustomerController extends WebExceptionHandler {
 
+    @Autowired
     CustomerClient customerClient;
-
-    public CustomerController() {
-        // Create builder to add the error decoder.
-        this.customerClient = HystrixFeign.builder()
-                .contract(new SpringMvcContract())
-                .encoder(new JacksonEncoder())
-                .decoder(new JacksonDecoder())
-                .errorDecoder(new GatewayErrorDecoder())
-                .target(CustomerClient.class, "http://localhost:8080", new CustomerFallbackFactory());
-    }
 
     /**
      * Get list of customers.

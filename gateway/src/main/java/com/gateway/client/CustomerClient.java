@@ -27,7 +27,7 @@ public interface CustomerClient {
      * @return
      */
     @GetMapping(
-            value = "customers",
+            value = "/customers",
             produces = APPLICATION_JSON_VALUE
     )
     List<Customer> getAllCustomers();
@@ -39,8 +39,8 @@ public interface CustomerClient {
      * @return
      */
     @PostMapping(
-            value = "customers",
-
+            value = "/customers",
+            consumes = APPLICATION_JSON_VALUE,
             produces = APPLICATION_JSON_VALUE
     )
     Customer addCustomer(@RequestBody Customer customer);
@@ -52,7 +52,7 @@ public interface CustomerClient {
      * @return
      */
     @GetMapping(
-            value = "customers/{customerId}",
+            value = "/customers/{customerId}",
             produces = APPLICATION_JSON_VALUE
     )
     Customer getCustomerById(@PathVariable(name = "customerId") Long customerId);
@@ -65,7 +65,7 @@ public interface CustomerClient {
      * @return
      */
     @PutMapping(
-            value = "customers/{customerId}",
+            value = "/customers/{customerId}",
             consumes = APPLICATION_JSON_VALUE,
             produces = APPLICATION_JSON_VALUE
     )
@@ -77,7 +77,7 @@ public interface CustomerClient {
      * @param customerId
      */
     @DeleteMapping(
-            value = "customers/{customerId}"
+            value = "/customers/{customerId}"
     )
     void deleteCustomerById(@PathVariable(name = "customerId") Long customerId);
 

@@ -59,4 +59,14 @@ public class ApiExceptionMessage {
     public void setError(ErrorMessage error) {
         this.error = error;
     }
+
+    @Override
+    public String toString() {
+        return "ApiExceptionMessage{" +
+                "timestamp=" + timestamp +
+                ", statusCode=" + statusCode +
+                ", httpStatus=" + httpStatus +
+                ", error=" + error +
+                '}';
+    }
 }

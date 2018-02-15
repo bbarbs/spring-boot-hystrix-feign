@@ -6,7 +6,7 @@ import feign.FeignException;
 import feign.hystrix.FallbackFactory;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Component
@@ -18,26 +18,25 @@ public class CustomerFallbackFactory implements FallbackFactory<CustomerClient> 
             @Override
             public List<Customer> getAllCustomers() {
                 handleErrorDecoderException(cause);
-                return new ArrayList<>();
+                return Arrays.asList(fallbackData());
             }
 
             @Override
             public Customer addCustomer(Customer customer) {
                 handleErrorDecoderException(cause);
-                return new Customer();
+                return fallbackData();
             }
 
             @Override
             public Customer getCustomerById(Long customerId) {
                 handleErrorDecoderException(cause);
-                return new Customer();
-
+                return fallbackData();
             }
 
             @Override
             public Customer updateCustomerById(Long customerId, Customer customer) {
                 handleErrorDecoderException(cause);
-                return new Customer();
+                return fallbackData();
             }
 
             @Override
@@ -48,7 +47,7 @@ public class CustomerFallbackFactory implements FallbackFactory<CustomerClient> 
             @Override
             public List<Customer> getCustomersByAge(int age) {
                 handleErrorDecoderException(cause);
-                return new ArrayList<>();
+                return Arrays.asList(fallbackData());
             }
         };
     }
@@ -63,5 +62,14 @@ public class CustomerFallbackFactory implements FallbackFactory<CustomerClient> 
         if (cause instanceof FeignException) {
             throw new RuntimeException(cause.getMessage());
         }
+    }
+
+    /**
+     * Helper method to return fallback data.
+     *
+     * @return
+     */
+    private Customer fallbackData() {
+        return new Customer(1L, Customer.FALLBACK, Customer.FALLBACK, 0);
     }
 }
