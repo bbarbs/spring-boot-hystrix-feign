@@ -14,7 +14,7 @@ public abstract class WebExceptionHandler {
      *
      * @param cause
      */
-    protected void handleCustomerException(Throwable cause) {
+    protected void handleException(Throwable cause) {
         if (cause instanceof NotFoundException) {
             throw new CustomerNotFoundException(cause.getMessage());
         } else if (cause instanceof ConflictException) {

@@ -32,7 +32,7 @@ public class CustomerController extends WebExceptionHandler {
         try {
             list = this.customerClient.getAllCustomers();
         } catch (Exception e) {
-            this.handleCustomerException(e.getCause());
+            this.handleException(e.getCause());
         }
         return list;
     }
@@ -52,7 +52,7 @@ public class CustomerController extends WebExceptionHandler {
         try {
             result = this.customerClient.addCustomer(customer);
         } catch (Exception e) {
-            this.handleCustomerException(e.getCause());
+            this.handleException(e.getCause());
         }
         return result;
     }
@@ -72,7 +72,7 @@ public class CustomerController extends WebExceptionHandler {
         try {
             customer = this.customerClient.getCustomerById(customerId);
         } catch (Exception e) {
-            this.handleCustomerException(e.getCause());
+            this.handleException(e.getCause());
         }
         return customer;
     }
@@ -94,7 +94,7 @@ public class CustomerController extends WebExceptionHandler {
         try {
             result = this.customerClient.updateCustomerById(customerId, customer);
         } catch (Exception e) {
-            this.handleCustomerException(e.getCause());
+            this.handleException(e.getCause());
         }
         return result;
     }
@@ -112,7 +112,7 @@ public class CustomerController extends WebExceptionHandler {
         try {
             this.customerClient.deleteCustomerById(customerId);
         } catch (Exception e) {
-            this.handleCustomerException(e.getCause());
+            this.handleException(e.getCause());
         }
         return new ResponseEntity(HttpStatus.OK);
     }
@@ -132,7 +132,7 @@ public class CustomerController extends WebExceptionHandler {
         try {
             list = this.customerClient.getCustomersByAge(age);
         } catch (Exception e) {
-            this.handleCustomerException(e.getCause());
+            this.handleException(e.getCause());
         }
         return list;
     }

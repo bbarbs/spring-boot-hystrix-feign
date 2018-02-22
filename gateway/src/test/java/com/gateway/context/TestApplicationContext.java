@@ -18,6 +18,7 @@ public abstract class TestApplicationContext {
 
     @Rule
     public WireMockClassRule wiremock = new WireMockClassRule(wireMockConfig().dynamicPort());
+
     ObjectMapper objectMapper = new ObjectMapper();
 
     /**
