@@ -33,14 +33,17 @@ public class GatewayApplication {
 	}
 }
 ```
-* Use ribbon for loadbalancer in Feign without eureka, since we don't use eureka we can manually use the ribbon.
+* For sample usage of loadbalancer i enable ribbon and disable eureka, since we don't use it.
 ```
-ribbon:
-  eureka:
-   enabled: false
-
+@FeignClient(
+        name = "customers",
+        fallbackFactory = CustomerFallbackFactory.class
+)
+=========================================================
 customers:
   ribbon:
+    eureka:
+      enabled: false
     listOfServers: http://localhost:8080
 ```
 
