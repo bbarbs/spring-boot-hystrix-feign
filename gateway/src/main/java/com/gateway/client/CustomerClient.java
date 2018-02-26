@@ -9,14 +9,10 @@ import java.util.List;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-/**
- * Customers rest api.
- * <p>
- * Note: It use the ribbon for client load balancer as added in yml.
- */
 
 @FeignClient(
         name = "customers",
+        url = "http://localhost:8080",
         fallbackFactory = CustomerFallbackFactory.class
 )
 public interface CustomerClient {

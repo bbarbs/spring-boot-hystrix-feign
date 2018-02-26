@@ -13,8 +13,6 @@ feign:
   hystrix:
     enabled: true
 
-customers:
-  ribbon:
+ribbon:
     eureka:
       enabled: false
-    listOfServers: http://localhost:8080
